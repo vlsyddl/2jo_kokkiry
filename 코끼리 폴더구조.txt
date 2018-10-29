@@ -1,0 +1,131 @@
+------------------ src/main/java --------------------
+ *kr.co.assa.studyboard.controller
+    - StudyBoardController
+
+ *kr.co.assa.dailyboard.controller
+    - DailyBoardController
+
+ *kr.co.assa.databoard.controller
+    - DataBoardController
+
+ *kr.co.assa.todolistboard.controller
+    - ToDoListBoardController
+    
+*kr.co.assa.mainboard.controller
+   - MainBoardController
+
+*kr.co.assa.member.controller
+   - LoginController
+   - SignupController
+
+	membercontroller패키지의 자바 컨트롤러 들을
+	memberController 하나로 몰아야 하는지
+
+------------------------컨트롤러----------------------------------------
+
+ *kr.co.assa.studyboard.service
+    - StudyBoardService 	- interface
+    - StudyBoardServiceImpl - .java
+
+ *kr.co.assa.dailyboard.service
+    - DailyBoardService 	- interface
+    - DailyBoardServiceImpl - .java
+
+ *kr.co.assa.databoard.service
+    - DataBoardService 	- interface
+    - DataBoardServiceImpl - .java
+
+ *kr.co.assa.todolistboard.service
+    - ToDoListBoardService 	- interface
+    - ToDoListBoardServiceImpl - .java
+
+ *kr.co.assa.mainboard.service
+    - MainBoardService 	- interface
+    - MainBoardServiceImpl - .java
+
+ *kr.co.assa.member.service
+    - MemberBoardService 	- interface
+    - MemberBoardServiceImpl - .java
+-------------------- 서비스 ------------------
+
+ *kr.co.assa.repository.domain
+   - Member
+   - Board
+   - Comment
+   - Recom
+   - File
+   - ToDoList
+   
+ *kr.co.assa.repository.mapper
+   - BoardMapper
+   - MemberMapper
+   - CommentMapper
+   - ToDoLIstMapper
+   - RecomMapper
+   - FileMapper
+
+------------------- src/main/resources ---------------
+ *config.mybatis
+    - db.properties
+
+ *config.spring
+    - repository-context.xml
+    - servlet-context.xml
+  
+ *config.sqlmap
+   - board.xml
+   - member.xml
+   - comment.xml
+   - toDoLIst.xml
+   - recom.xml
+//   - File.xml
+
+ *src.main.webapp.WEB-INF.jsp.studyboard
+    - detail.jsp
+    - list.jsp
+    - updateForm.jsp
+    - writeForm.jsp
+
+ *src.main.webapp.WEB-INF.jsp.dailyboard
+    - detail.jsp
+    - list.jsp
+    - updateForm.jsp
+    - writeForm.jsp
+
+ *src.main.webapp.WEB-INF.jsp.databoard
+    - detail.jsp
+    - list.jsp
+    - updateForm.jsp
+    - writeForm.jsp
+
+ *src.main.webapp.WEB-INF.jsp.todolistboard
+    - detail.jsp
+    - list.jsp
+    - updateForm.jsp
+    - writeForm.jsp
+
+
+ *src.main.webapp.WEB-INF.jsp.member
+    - loginForm.jsp
+    - signupForm.jsp
+    - findpassForm.jsp
+    - mypage.jsp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
