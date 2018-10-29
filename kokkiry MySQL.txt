@@ -1,0 +1,87 @@
+﻿
+
+*시퀀스 만드는 법*
+seq INT  PRIMARY KEY AUTO_INCREMENT
+시퀀스이름 타입 제한조건 AUTO_INCREMENT(*) 
+
+
+*foreign key 만드는 법*
+[constraint fk_board_no] foreign key ( no ) refrences kokkiry_board( no ) on delete cascade
+
+
+
+CREATE TABELE kokkiry_member(
+	user_no INT primary key AUTO_INCREMENT, //시퀀스
+	user_email varchar(30) primary key not null,
+	password varchar(30) not null, 
+	name varchar(20) not null,
+	phone char(11) not null,
+	gender char(1) not null,
+	birth char(8) not null,
+	profile_path varchar(500) not null,     //디폴트 사진 有
+	profile_name varchar(500) not null,
+	type char(1) not null DEFAULT 'N',
+);
+//수정 이름 없어도 괜찮음??? 이름 중복 문제 때문에
+
+CREATE TABELE kokkiry_board(
+	no INT primary key AUTO_INCREMENT, //시퀀스
+	[constraint fk_email] foreign key ( user_email ) refrences  kokkiry_member( user_email ) on delete cascade
+	[constraint fk_nol] foreign key ( user_no ) refrences kokkiry_member( user_no ) on delete cascade // 둘 중 하나 선택
+	name varchar(30) not null,  //session으로 받기??
+	title varchar(100) not null, 
+	writer varchar(50) not null,
+	content varchar(4000) not null,
+	reg_date Date not null default now(), //깨알 지식 : sysdate()는 현재 함수 호출 시간을 참조 now()가 더 정확
+ 	count INT not null default '0', 
+	category  char(1) not null, //맞나요?
+);
+
+
+
+CREATE TABLE kokkiry_comment (
+	comment_no INT primary key AUTO_INCREMENT, //시퀀스
+	[constraint fk_board_no] foreign key ( no ) refrences kokkiry_board( no ) on delete cascade
+	comment_content	varchar(1000) NOT NULL,
+	comment_writer VARCHAR(255) NULL	// null 진짜 맞나요? 보류!! //맴버의 회원번호를 래퍼런스 => session으로 받자ㅠㅠ
+	comment_reg_date	 date NOT NULL DEFAULT now()
+);
+
+
+
+CREATE TABLE kokkiry_recomm (
+	[constraint fk_board_no] foreign key ( no ) refrences kokkiry_board( no ) on delete cascade,
+	recomm_name	varchar2(20)	NOT NULL	//COMMENT '맴버의 회원번호를 래퍼런스'=> session으로 받자ㅠㅠ
+);
+시퀀스 없음
+
+CREATE TABLE kokkiry_file (
+	[constraint fk_board_no] foreign key ( no ) refrences kokkiry_board( no ) on delete cascade,
+	file_name	 varchar(500) NOT NULL,
+	file_path varchar(500) NOT NULL,
+	file_no INT primary key AUTO_INCREMENT, //시퀀스
+);
+//수정 이름 없어도 괜찮음??? 이름 중복 문제 때문에
+
+CREATE TABLE kokkiry_todo (
+	[constraint fk_board_no] foreign key ( no ) refrences kokkiry_board( no ) on delete cascade,
+	user_no	INT	NOT NULL	//session으로 받자
+	todo varchar(4000) NOT NULL,
+	category	char(1) NOT NULL,
+	todo_no INT primary key AUTO_INCREMENT, //시퀀스
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
