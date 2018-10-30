@@ -2,7 +2,7 @@
 
 *시퀀스 만드는 법*
 seq INT  PRIMARY KEY AUTO_INCREMENT
-시퀀스이름 타입 제한조건 AUTO_INCREMENT(*) 
+시퀀스이름 타입 제한조건 AUTO_INCREMENT
 
 
 *foreign key 만드는 법*
@@ -10,7 +10,7 @@ seq INT  PRIMARY KEY AUTO_INCREMENT
 
 
 
-CREATE TABELE kokkiry_member(
+CREATE table kokkiry_member(
 	user_no INT primary key AUTO_INCREMENT,
 	user_email varchar(30) primary key not null,
 	password varchar(30) not null, 
@@ -20,11 +20,11 @@ CREATE TABELE kokkiry_member(
 	birth char(8) not null,
 	profile_path varchar(500) not null,     
 	profile_name varchar(500) not null,
-	type char(1) not null DEFAULT 'N',
+	type char(1) not null DEFAULT 'N'
 );
 
 
-CREATE TABELE kokkiry_board(
+CREATE table kokkiry_board(
 	no INT primary key AUTO_INCREMENT, 
 	[constraint fk_email] foreign key ( user_email ) refrences  kokkiry_member( user_email ) on delete cascade
 	[constraint fk_nol] foreign key ( user_no ) refrences kokkiry_member( user_no ) on delete cascade // 둘 중 하나 선택
@@ -39,36 +39,37 @@ CREATE TABELE kokkiry_board(
 
 
 
-CREATE TABLE kokkiry_comment (
-	comment_no INT primary key AUTO_INCREMENT, //시퀀스
-	[constraint fk_board_no] foreign key ( no ) refrences kokkiry_board( no ) on delete cascade
+CREATE table kokkiry_comment (
+	comment_no INT primary key AUTO_INCREMENT, 
+	[constraint fk_board_no] foreign key ( no ) refrences kokkiry_board( no ) on delete cascade,
 	comment_content	varchar(1000) NOT NULL,
-	comment_writer VARCHAR(255) NOT NULL	
+	comment_writer VARCHAR(255) NOT NULL,	
 	comment_reg_date	 date NOT NULL DEFAULT now()
 );
 
 
 
-CREATE TABLE kokkiry_recomm (
+CREATE table kokkiry_recomm (
 	[constraint fk_board_no] foreign key ( no ) refrences kokkiry_board( no ) on delete cascade,
 	recomm_name	varchar2(20)	NOT NULL
 );
-시퀀스 없음
 
-CREATE TABLE kokkiry_file (
+
+CREATE table kokkiry_file (
 	[constraint fk_board_no] foreign key ( no ) refrences kokkiry_board( no ) on delete cascade,
 	file_name	 varchar(500) NOT NULL,
 	file_path varchar(500) NOT NULL,
 	file_no INT primary key AUTO_INCREMENT
 );
-//수정 이름 없어도 괜찮음??? 이름 중복 문제 때문에
 
-CREATE TABLE kokkiry_todo (
+
+CREATE table kokkiry_todo (
 	[constraint fk_board_no] foreign key ( no ) refrences kokkiry_board( no ) on delete cascade,
-	user_no	INT	NOT NULL	
+	user_no	INT	NOT NULL,	
 	todo varchar(4000) NOT NULL,
 	category	char(1) NOT NULL,
-	todo_no INT primary key AUTO_INCREMENT
+	todo_no INT primary key AUTO_INCREMENT,
+	check char(1) NOT NULL
 );
 
 
