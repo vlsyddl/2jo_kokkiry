@@ -1,0 +1,239 @@
+table.table.list > thead > tr > th{
+    background: #55608f;
+    color: #fff;
+    text-align: center;
+}
+table.table.list > tbody > tr > td{
+    text-align:  center;
+    padding: 12px 0;
+}
+table.table.list > tbody > tr > td> a{
+    display: block;
+    width: 100%;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+table.table.list > tbody > tr:last-child > td{
+	border-bottom: 1px solid #d9d9d9;
+}
+.pagination > li > a >span{
+    padding: 2px 0;
+    display: inline-block;
+}
+.searchWrap{
+    margin: auto;
+    width: 100%;
+    max-width: 	400px;
+}
+.searchWrap:after{
+	display: block;
+	clear: both;
+	content: '';
+}
+.searchWrap >form> *{
+    display: block;
+    float: left;
+}
+.searchWrap select{
+	width: 20%;
+	border-radius: 4px 0 0 4px;
+	border-right: 0;
+}
+.searchWrap input{
+	width: 70%;
+	border-radius: 0;
+}
+.searchWrap span{
+	width: 10%;
+}
+.searchWrap span button{
+	padding-top: 9px;
+	padding-bottom: 9px;
+}
+.writeBtn{
+    display: block;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    padding: 5px 10px;
+   float: right;
+   transition: all 0.5s;
+}
+.writeBtn:hover{
+	background: #acd2dd;
+	color: #fff;
+}
+.detailHead{
+    border-bottom: 1px solid #d9d9d9;
+}
+.detailHead:after{
+    display: block;
+    clear: both;
+    content: '';
+}
+.detailHead .titleBox{
+    float: left;
+}
+.detailHead .titleBox dl dt,.detailHead .titleBox dl dd{
+    display: inline-block;
+    font-size: 1.2em;
+}
+.detailHead .infoBox{
+    float: right;
+}
+.detailHead .infoBox ul li{
+    display: inline-block;
+}
+.detailBody {
+	border-bottom: 1px solid #d9d9d9;
+}
+.detailBody .content{
+    min-height: 300px;
+    padding: 5px 0;
+}
+.detailBody .attachList ul li{
+	text-align: right;
+}
+.detailFooter{
+    padding: 10px 0;
+}
+.commentForm{
+	border-bottom: 1px solid #d9d9d9;
+	padding: 10px 0;
+}
+.commentForm:after{
+	display: block;
+	content:'';
+	clear: both;
+}
+#commentFormBtn{
+	display: block;
+	float: right;
+	width: 100px;
+	padding: 10px;
+	text-align: center;
+	border: 1px solid #333;
+	border-radius: 4px;	
+	margin-top: 10px;
+	transition: all 0.5s;
+}
+#commentFormBtn:hover{
+	background: #acd2dd;
+	color: #fff;
+}
+.commentBox .commentHead:after{
+    display: block;
+    clear: both;
+    content: "";
+}
+.commentBox .commentHead .infoBox{
+    float: left;
+}
+.commentBox .commentHead .infoBox dl >*{
+    display: inline-block;
+}
+
+.commentBox .commentHead .btnBox{
+    float: right;
+}
+
+.commentList li{
+    border-bottom: 1px solid #d9d9d9;
+    padding: 10px 0;
+}
+.detailBtnBox:after{
+    display: block;
+    clear: both;
+    content: "";
+}
+.detailBtnBox .btnLeft{
+    float: left;
+}
+.detailBtnBox .btnRight{
+    float: right;
+}
+.detailBtnBox a{
+    display: inline-block;
+    border: 1px solid #333;
+    width: 80px;
+    border-radius: 4px;
+    text-align: center;
+    padding: 5px 0;
+    transition: all 0.5s;
+}
+.detailBtnBox a:hover{
+	background: #acd2dd;
+	color: #fff;
+}
+.form-btn{
+	text-align: right;
+}
+.form-btn a{
+	display: inline-blocj;
+	padding: 5px 10px;
+	border: 1px solid #333;
+	border-radius: 4px;
+	transition: all 0.5s;
+}
+.form-btn a:hover{
+	background: #acd2dd;
+	color: #fff;
+}
+.dailyList > li{
+	border-top: 2px dotted #333;
+	border-bottom: 2px dotted #333;
+	padding: 10px 0;
+}
+.dailyList > li+li{
+	margin-top: 30px;
+}
+.dailyBox .titleBox{
+	font-size: 1.3em;
+	font-weight: bold;
+}
+.dailyBox .dailyBody{
+	border-top: 1px solid #d9d9d9;
+	border-bottom: 1px solid #d9d9d9;
+	padding: 10px 0;
+}
+.dailyBox .dailyBody img{
+	width: auto;
+	height: auto;
+	max-width: 100%;
+}
+.likeBox{
+	padding-left: 10px;
+	padding-top: 5px ;
+	padding-bottom: 5px;
+}
+.likeBox a i{
+	font-size: 1.1em;
+	
+}
+.likeBox a.on i{
+	color: #0000ff;
+}
+.dailyMode{
+	text-align: center;
+}
+.dailyMode a{
+	background: #333;
+	display: inline-block;
+	color: #fff;
+	border: 1px solid #333;
+	border-radius: 4px;
+	transition: all .5s;
+	padding: 10px 0;
+	width: 120px;
+	text-align: center;
+}
+.dailyMode a:hover{
+	background: #acd2dd;
+}
+
+
+
+
+
+
