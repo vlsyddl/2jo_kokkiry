@@ -1,8 +1,87 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.co.mlec.repository.mapper.">
+<mapper namespace="kr.co.assa.repository.mapper.MemberMapper">
+	<resultMap id="memberMap" type="Member">
+		<result column="user_no" property="userNo" />
+		<result column="user_email" property="userEmail" />
+		<result column="password" property="password" />
+		<result column="name" property="name" />
+		<result column="phone" property="phone" />
+		<result column="gender" property="gender" />
+		<result column="birth" property="birth" />
+		<result column="profile_path" property="profilePath" />
+		<result column="profile_name" property="profileName" />
+		<result column="nickname" property="nickname"/>
+		<result column="type" property="type" />
+	</resultMap>
+	
+	
+	
 
+	
+	
+	
+	
+	
+	<!-- 회원가입하기 -->
+	<insert id="insertMemer" parameterType="Member">
+		insert into assa_member(user_no, user_email, password, name, nickname, phone, gender, birth, type)
+		values(assa_member_no.nextval, #{userEmail}, #{password}, #{name}, #{nickname}, #{phone}, #{birth}, #{type})
+	</insert>
+	
+	
+	<select id="selectUserEmail" parameterType="String" resultType="String">
+		select user_email
+		from assa_member
+		where user_email=#{userEmail}
+	</select>
+	
+	
+	<!-- 회원 정보수정: myPage (보기)-->
+	<select id="selectMember"  resultMap="memberMap">
+		select * 
+		from kokkiky_member
+		where user_no=#{userNo}
+	</select>
+	
+	<!-- 회원 정보수정: myPage (수정)-->
+	<insert id="updateMember" parameterType="Member">
+		update assa_member
+		set user_email=#{userEmail}, 
+		password=#{password}, 
+		name=#{name}, 
+		nickname=#{nickname}
+		phone=#{phone}, 
+		gender=#{gender}, 
+		birth=#{birth}, 
+		profile_path=#{profilePath},
+		profile_name=#{profileName},
+		type=#{type}
+	</insert>
+	
+	<!--  로그인 하기  -->
+    <select id="login" parameterType="Member" resultMap="memberMap">
+    	select *
+    	  from assa_member 
+    	  where user_email=#{userEmail} and password=#{password} 
+    </select>	
+    
+    <!-- 비밀번호 찾기 -->	
+    <select id="selectFindPass" parameterType="Member" resultMap="memberMap">
+    	select *
+    	from assa_member 
+    	where name=#{name} and user_email=#{userEmail}
+    </select>   
+     <!-- 비밀번호 재설정 -->
+     <insert id="insertFindPass" parameterType="Member">
+		insert into assa_member(password) values(#{password})
+		where user_email = #{userEmail}
+	</insert>
+     
+    
+    
+    
 </mapper>
 
 
