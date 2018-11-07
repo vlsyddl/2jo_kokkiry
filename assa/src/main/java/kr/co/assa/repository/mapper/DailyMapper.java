@@ -4,7 +4,6 @@ import java.util.List;
 
 import kr.co.assa.repository.domain.Board;
 import kr.co.assa.repository.domain.Comment;
-import kr.co.assa.repository.domain.Recomm;
 
 public interface DailyMapper {
 	
@@ -20,11 +19,11 @@ public interface DailyMapper {
     int deleteComment(int commentNo);
 	
 // 추천
-	int rec(int no);
+	/*int rec(int no);
 	int recCount(Recomm recomm);
 	void insertRec(Recomm recomm);
 	void deleteRec(Recomm recomm);
-	
+	*/
 	
 	
 	

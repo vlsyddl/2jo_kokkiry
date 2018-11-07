@@ -2,8 +2,6 @@ package kr.co.assa.repository.mapper;
 
 import java.util.List;
 
-import kr.co.assa.repository.domain.Todo;
-
 public interface MainMapper {
 	String selectLastStudyBoard();
 	String selectLastDailyBoard();

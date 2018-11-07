@@ -18,6 +18,9 @@ dl{
     width: 100%;
     height: 100vh;
 }
+.inner{
+	height: 100%;
+}
 .containerWrap{
     width: 100%;
     max-width: 1170px;
@@ -274,7 +277,14 @@ span.chain.chain04{
 .jukeBox .btnBox a.pause{
     display: none;
 }
-
+.jukeBox .listBox .musicList{
+    display: block;
+    color: #fff;
+    background: #333;
+    text-align: center;
+    padding: 10px 0;
+     border-radius:0 0 10px 10px ;
+}
 /*study*/
 table.table.list > thead > tr > th{
     background: #55608f;
@@ -369,6 +379,9 @@ table.table.list > tbody > tr:last-child > td{
 .detailBody .content{
     min-height: 300px;
     padding: 5px 0;
+}
+.detailBody .content img{
+	max-width: 100%;
 }
 .detailBody .attachList ul li{
 	text-align: right;
@@ -540,7 +553,7 @@ table.table.list > tbody > tr:last-child > td{
 .contents .profile .todoList li{
     margin-top: 10px;
 }
-.contents .profile .todoList ul.complete{
+.contents .profile .todoList li.complete{
     text-decoration: line-through;
     color: #999;
 }
