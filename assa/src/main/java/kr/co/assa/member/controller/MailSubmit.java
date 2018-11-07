@@ -10,29 +10,22 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
-@RequestMapping(value = "/mailSender") 
+@Controller
 public class MailSubmit {
-	
-	public static void main(String[] args) {
-		try {
-			mailSender();
-		} catch (AddressException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+	@Autowired
+	Encryption encryption;
+
 	/** 자바 메일 발송 
 	 * @throws MessagingException 
 	 * @throws AddressException 
 	 **/ 
-	public static void mailSender(/*HttpServletRequest request, ModelMap mo*/) 
-							throws AddressException, MessagingException { 
+	public  String mailSender(/*HttpServletRequest request, ModelMap mo*/String type, String userEmail) 
+							throws AddressException, MessagingException {
+		String code="";
 		RandomString rs =new RandomString();
 		
 		// 네이버일 경우 smtp.naver.com 을 입력합니다. 
@@ -44,9 +37,19 @@ public class MailSubmit {
 		int port=465; //포트번호 
 		
 		// 메일 내용 
-		String recipient = "eunbee0318@naver.com"; //받는 사람의 메일주소를 입력해주세요. 
-		String subject = "아싸월드 인증번호"; //메일 제목 입력해주세요. 
-		String body ="<h1>이메일 인증을 진행해주세요.<h1><br>인증번호는"+rs.randomString()+"입니다."; //메일 내용 입력해주세요. 
+		
+		String recipient = userEmail; //받는 사람의 메일주소를 입력해주세요. 
+		String subject="";
+		String body="";
+		if(type=="findpass") {
+			code=encryption.encrypt(rs.randomString());
+			subject = "아싸월드 임시 비밀번호"; //메일 제목 입력해주세요.
+			body ="<h1>아싸월드 임시 비밀 번호는 "+code+"입니다.</h1>"; //메일 내용 입력해주세요.
+		}else if(type=="singup"){
+			code="rs.randomString()";
+			subject = "아싸월드 회원가입 인증번호"; //메일 제목 입력해주세요.
+			body ="<h1>이메일 인증을 진행해주세요.</h1><br><h1>인증번호는"+code+"입니다.</h1>"; //메일 내용 입력해주세요.
+		}
 		
 		Properties props = System.getProperties(); // 정보를 담기 위한 객체 생성 
 		
@@ -75,7 +78,11 @@ public class MailSubmit {
 		//mimeMessage.setText(body); //내용셋팅 
 		mimeMessage.setContent(body,"text/html; charset=utf-8");
 		Transport.send(mimeMessage); //javax.mail.Transport.send() 이용 
+		
+		return code;
 		}
+	
+
 	}
 
 		

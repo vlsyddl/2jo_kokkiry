@@ -25,43 +25,77 @@
 	
 	
 	<!-- 회원가입하기 -->
-	<insert id="insertMemer" parameterType="Member">
-		insert into assa_member(user_no, user_email, password, name, nickname, phone, gender, birth, type)
-		values(assa_member_no.nextval, #{userEmail}, #{password}, #{name}, #{nickname}, #{phone}, #{birth}, #{type})
+	<insert id="insertMemer" parameterType="Member" >
+		insert into assa_member(user_email, password, name, nickname, phone, gender, birth)
+		values(#{userEmail}, #{password}, #{name}, #{nickname}, #{phone},#{gender}, #{birth})
 	</insert>
 	
+	<select id="selectByUserEamil" parameterType="String" resultMap="memberMap">
+		select * 
+		from assa_member 
+		where user_email = #{userEmail}
+	</select>
 	
-	<select id="selectUserEmail" parameterType="String" resultType="String">
+	<select id="selectByNickname" parameterType="String" resultMap="memberMap">
+		select *
+		from assa_member
+		where nickname=#{nickname}
+	</select>
+	
+
+<!-- 	<select id="selectUserEmail" parameterType="String" resultType="String">
 		select user_email
 		from assa_member
 		where user_email=#{userEmail}
-	</select>
-	
-	
-	<!-- 회원 정보수정: myPage (보기)-->
-	<select id="selectMember"  resultMap="memberMap">
+	</select> -->
+	<!-- 회원 정보수정: myPage (검증)-->
+	<select id="selectMember"  parameterType="int" resultMap="memberMap">
 		select * 
-		from kokkiky_member
+		from assa_member
 		where user_no=#{userNo}
 	</select>
 	
+	
+
+	
+
+	
 	<!-- 회원 정보수정: myPage (수정)-->
-	<insert id="updateMember" parameterType="Member">
+	<update id="updateMember" parameterType="Member" >
 		update assa_member
-		set user_email=#{userEmail}, 
-		password=#{password}, 
-		name=#{name}, 
-		nickname=#{nickname}
+		set name=#{name}, 
+		nickname=#{nickname},
 		phone=#{phone}, 
 		gender=#{gender}, 
-		birth=#{birth}, 
-		profile_path=#{profilePath},
-		profile_name=#{profileName},
-		type=#{type}
-	</insert>
+		birth=#{birth}
+		where user_no=#{userNo} and password=#{password}
+	</update>
+	
+	
+		<!-- 회원 정보수정: myPage (수정)-->
+	<update id="updateMember2" parameterType="Member" >
+		update assa_member 
+		set password=#{rePassword}, 
+		name=#{name}, 
+		nickname=#{nickname},
+		phone=#{phone}, 
+		gender=#{gender}, 
+		birth=#{birth}
+		where user_no=#{userNo} and password=#{password}
+	</update>
+	
+	<!-- 회원 프로필 수정: myPage (수정)-->
+	<update id="updateProfile" parameterType="Member">
+		update assa_member
+		set profile_path=#{profilePath},
+		profile_name=#{profileName}
+		where user_no=#{userNo}
+	</update>
+	
+	
 	
 	<!--  로그인 하기  -->
-    <select id="login" parameterType="Member" resultMap="memberMap">
+    <select id="login" parameterType="Member" resultMap="memberMap" >
     	select *
     	  from assa_member 
     	  where user_email=#{userEmail} and password=#{password} 
@@ -70,14 +104,24 @@
     <!-- 비밀번호 찾기 -->	
     <select id="selectFindPass" parameterType="Member" resultMap="memberMap">
     	select *
-    	from assa_member 
+    	  from assa_member 
     	where name=#{name} and user_email=#{userEmail}
     </select>   
-     <!-- 비밀번호 재설정 -->
-     <insert id="insertFindPass" parameterType="Member">
-		insert into assa_member(password) values(#{password})
-		where user_email = #{userEmail}
-	</insert>
+    
+    <!-- 임시 비밀번호 확인 -->	
+    <select id="selectFindPassByCode" parameterType="Member" resultMap="memberMap">
+    	select *
+    	  from assa_member 
+    	where name=#{name} and user_email=#{userEmail} and password=#{password}
+    </select>   
+    
+    
+    <!-- 비밀번호 재설정 -->
+    <update id="updateFindPass" parameterType="Member" >
+		update assa_member
+		set password=#{password}
+    	where name=#{name} and user_email=#{userEmail}
+    </update> 
      
     
     

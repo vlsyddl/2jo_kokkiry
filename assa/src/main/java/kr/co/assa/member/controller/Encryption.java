@@ -1,5 +1,7 @@
 package kr.co.assa.member.controller;
 import java.security.MessageDigest;
+
+import org.springframework.stereotype.Controller;
 /**
  * 
  *  암호화 : 평문 -> 암호화 (v)
@@ -10,9 +12,11 @@ import java.security.MessageDigest;
  *	
  *  참고 : https://blog.kindler.io/java-encrypt/
  */
+
+@Controller
 public class Encryption {
 	
-	    public static String encrypt(String planText) {
+	    public String encrypt(String planText) {
 	        try{
 	        	// MessageDigest : 메세지 압축 함수 : 평문을 받아서 일정한 길이의 데이터로 압축
 	        	// 제공해주는 MessageDigest 중에 해당하는 객체 생성

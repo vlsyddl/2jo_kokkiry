@@ -1,12 +1,14 @@
 package kr.co.assa.member.controller;
 
+
+
 public class RandomString {
 	
 	public String randomString() {
 
 		char y=0;
 		StringBuffer sb = new StringBuffer();
-		for(int i=0; i<8;i++) {
+		for(int i=0; i<15;i++) {
 			int x= (int)(Math.random()*3)+1;
 			
 			switch(x) {
