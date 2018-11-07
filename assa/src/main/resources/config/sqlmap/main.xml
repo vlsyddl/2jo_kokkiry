@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.assa.repository.mapper.MainMapper">
+	<resultMap id="boardMap" type="Board">
+		<result column="no" property="no" />
+		<result column="writer" property="writer" />
+		<result column="title" property="title" />
+		<result column="content" property="content" />
+		<result column="reg_date" property="regDate" />
+		<result column="count" property="count" />
+		<result column="category" property="category" />
+		<collection property="Todo" resultMap="todoMap"/>
+		<collection property="Member" resultMap="memberMap"/>
+	</resultMap>
+	
+	<resultMap id="memberMap" type="Member">
+		<result column="user_no" property="userNo" />
+		<result column="user_email" property="userEmail" />
+		<result column="nickname" property="nickname" />
+		<result column="title" property="title" />
+		<result column="password" property="password" />
+		<result column="name" property="name" />
+		<result column="phone" property="phone" />
+		<result column="gender" property="gender" />
+		<result column="birth" property="birth" />
+		<result column="profile_path" property="profilePath" />
+		<result column="profile_name" property="profileName" />
+		<result column="type" property="type" />
+	</resultMap>
+	
+	<resultMap id="todoMap" type="Todo">
+		<result column="board_no" property="boardNo" />
+		<result column="todo_no" property="todoNo" />
+		<result column="title" property="title" />
+		<result column="todo_check" property="todoCheck" />
+	</resultMap>
+	
+	<resultMap id="visitorMap" type="Visitor" >
+		<result column="visit_date" property="visitDate" />
+		<result column="cnt" property="cnt" />
+	</resultMap>
+	
+	<!-- 스터디 게시판 최근 게시물 확인 -->
+	<select id="selectLastStudyBoard" resultType="string">
+		select title
+		  from assa_board
+		 where category = 1
+		 order by no desc limit 1
+	</select>
+	
+	<!-- 일상 게시판 최근 게시물 확인 -->
+	<select id="selectLastDailyBoard" resultType="string">
+		select title
+		  from assa_board
+		 where category = 2
+		 order by no desc limit 1
+	</select>
+	
+	<!-- 자료실 게시판 최근 게시물 확인 -->
+	<select id="selectLastDataBoard" resultType="string">
+		select title
+		  from assa_board
+		 where category = 3
+		 order by no desc limit 1
+	</select>
+	
+	<!-- 스터디 게시판 오늘 쓴 글의 수 확인 -->
+	<select id="selectTodayStudyBoard" resultType="int">
+		select count(*)
+		  from assa_board
+		 where date(reg_date) = date(now())
+		   and category = 1
+	</select>
+	
+	<!-- 스터디 게시판 모든 글 수 확인 -->
+	<select id="selectTotalStudyBoard" resultType="int">
+		select count(*)
+		  from assa_board
+		 where category = 1
+	</select>
+	
+	<!-- 일상 게시판 오늘 쓴 글의 수 확인 -->
+	<select id="selectTodayDailyBoard" resultType="int">
+		select count(*)
+		  from assa_board
+		 where date(reg_date) = date(now())
+		   and category = 2
+	</select>
+	
+	<!-- 일상 게시판 모든 글 수 확인 -->
+	<select id="selectTotalDailyBoard" resultType="int">
+		select count(*)
+		  from assa_board
+		 where category = 2
+	</select>
+	
+	<!-- 자료실 게시판 오늘 쓴 글의 수 확인 -->
+	<select id="selectTodayDataBoard" resultType="int">
+		select count(*)
+		  from assa_board
+		 where date(reg_date) = date(now())
+		   and category = 3
+	</select>
+	
+	<!-- 자료실 게시판 모든 글 수 확인 -->
+	<select id="selectTotalDataBoard" resultType="int">
+		select count(*)
+		  from assa_board
+		 where category = 3
+	</select>
+	
+	<!-- 프로필 밑 공간에 할 일 리스트 중 체크된 것 보여주기 -->
+	<select id="selectMiniCheckedTodo" resultType="string">
+		select t.todo
+		  from assa_board b
+		 inner join assa_todo t
+		    on b.no = t.board_no
+		 inner join assa_member m
+		    on b.writer = m.nickname
+		 where date(reg_date) = date(now())
+		   and t.todo_check = 'y'
+	</select>
+	
+	<!-- 프로필 밑 공간에 할 일 리스트 중 체크 안된 것 보여주기 -->
+	<select id="selectMiniNotCheckedTodo" resultType="string">
+		select t.todo
+		  from assa_board b
+		 inner join assa_todo t
+		    on b.no = t.board_no
+		 inner join assa_member m
+		    on b.writer = m.nickname
+		 where date(reg_date) = date(now())
+		   and t.todo_check = 'n'
+	</select>
+	
+	<!-- 오늘 방문자 수 확인 -->
+	<select id="selectTodayVisitCnt" resultType="int">
+	select cnt
+	  from assa_visitor
+	 where date_format(visit_date, '%Y%m%d') = date_format(now(), '%Y%m%d')
+	</select>
+	
+	<!-- 총 방문자 수 확인 -->
+	<select id="selectTotalVisitCnt" resultType="int">
+		select sum(cnt) 
+		  from assa_visitor
+	</select>
+	
+	<!-- 첫 방문자일때는 insert -->
+	<insert id="insertVisitor">
+		insert into assa_visitor(cnt) values (1)
+	</insert>
+	
+	<!-- 방문자 오면 cnt + 1 -->
+	<update id="updateVisitor">
+		update assa_visitor
+		   set cnt = cnt + 1
+		 where date_format(visit_date, '%Y%m%d') = date_format(now(), '%Y%m%d')
+	</update>
+		
+	<!-- 오늘의 총 todo 수 가져오기 피뇽이 -->
+	<select id="selectTotalTodoCnt" resultType="int">
+		select count(*)
+		  from assa_board b
+		 inner join assa_todo t
+			on b.no = t.board_no
+		 inner join assa_member m
+			on b.writer = m.nickname
+		 where date(reg_date) = date(now())
+		   and b.writer = '피뇽이'
+	</select>	
+	
+	<!-- 오늘의 todo 중 완료한 todo의 수 가져오기. 피뇽이 -->
+	<select id="selectCheckedTodoCnt" resultType="int">
+		select count(*)
+		  from assa_board b
+		 inner join assa_todo t
+			on b.no = t.board_no
+		 inner join assa_member m
+			on b.writer = m.nickname
+		 where date(reg_date) = date(now())
+		   and b.writer = '피뇽이'
+		   and t.todo_check = 'y'
+	</select>
+	
+		<!-- 1일 ~ 6일 전 날짜에 해당하는 체크된 todo 리스트의 수 가져오기. 피뇽이 -->
+	<select id="selectCheckTodoCntpn" parameterType="int" resultType="int">
+		select count(*)
+		  from assa_board b
+		 inner join assa_todo t
+			on b.no = t.board_no
+		 inner join assa_member m
+			on b.writer = m.nickname
+		 where date_format(reg_date, '%Y%m%d') = date_format(date_add(now(), interval -#{no+1} day), '%Y%m%d')
+		   and b.writer = '피뇽이'
+		   and t.todo_check = 'y'
+	</select>
+
+	<!-- 1일 ~ 6일 전 날짜에 해당하는 todo 리스트의 수 가져오기. 피뇽이 -->
+	<select id="selectTotalTodoCntpn" parameterType="int" resultType="int">
+		select count(*)
+		  from assa_board b
+		 inner join assa_todo t
+			on b.no = t.board_no
+		 inner join assa_member m
+			on b.writer = m.nickname
+		 where date_format(reg_date, '%Y%m%d') = date_format(date_add(now(), interval -#{no+1} day), '%Y%m%d')
+		   and b.writer = '피뇽이'
+	</select>
+	 
+	<!-- 오늘의 총 todo 수 가져오기 유신이 -->
+<!-- 	<select id="selectTotalTodoCntys" resultType="int"> -->
+<!-- 		select count(*) -->
+<!-- 		  from assa_board b -->
+<!-- 		 inner join assa_todo t -->
+<!-- 			on b.no = t.board_no -->
+<!-- 		 inner join assa_member m -->
+<!-- 			on b.writer = m.nickname -->
+<!-- 		 where date(reg_date) = date(now()) -->
+<!-- 		   and b.writer = '유신이' -->
+<!-- 	</select>	 -->
+	
+	<!-- 오늘의 todo 중 완료한 todo의 수 가져오기. 유신이 -->
+<!-- 	<select id="selectCheckedTodoCntys" resultType="int"> -->
+<!-- 		select count(*) -->
+<!-- 		  from assa_board b -->
+<!-- 		 inner join assa_todo t -->
+<!-- 			on b.no = t.board_no -->
+<!-- 		 inner join assa_member m -->
+<!-- 			on b.writer = m.nickname -->
+<!-- 		 where date(reg_date) = date(now()) -->
+<!-- 		   and b.writer = '유신이' -->
+<!-- 		   and t.todo_check = 'y' -->
+<!-- 	</select> -->
+	
+		<!-- 1일 ~ 6일 전 날짜에 해당하는 체크된 todo 리스트의 수 가져오기. 유신이 -->
+<!-- 	<select id="selectCheckTodoCntys" parameterType="int" resultType="int"> -->
+<!-- 		select count(*) -->
+<!-- 		  from assa_board b -->
+<!-- 		 inner join assa_todo t -->
+<!-- 			on b.no = t.board_no -->
+<!-- 		 inner join assa_member m -->
+<!-- 			on b.writer = m.nickname -->
+<!-- 		 where date_format(reg_date, '%Y%m%d') = date_format(date_add(now(), interval -#{no+1} day), '%Y%m%d') -->
+<!-- 		   and b.writer = '유신이' -->
+<!-- 		   and t.todo_check = 'y' -->
+<!-- 	</select> -->
+
+	<!-- 1일 ~ 6일 전 날짜에 해당하는 todo 리스트의 수 가져오기. 유신이 -->
+<!-- 	<select id="selectTotalTodoCntys" parameterType="int" resultType="int"> -->
+<!-- 		select count(*) -->
+<!-- 		  from assa_board b -->
+<!-- 		 inner join assa_todo t -->
+<!-- 			on b.no = t.board_no -->
+<!-- 		 inner join assa_member m -->
+<!-- 			on b.writer = m.nickname -->
+<!-- 		 where date_format(reg_date, '%Y%m%d') = date_format(date_add(now(), interval -#{no+1} day), '%Y%m%d') -->
+<!-- 		   and b.writer = '유신이' -->
+<!-- 	</select> -->
+	
+		
+	<!-- 오늘의 총 todo 수 가져오기 승재형 -->
+<!-- 	<select id="selectTotalTodoCntsjh" resultType="int"> -->
+<!-- 		select count(*) -->
+<!-- 		  from assa_board b -->
+<!-- 		 inner join assa_todo t -->
+<!-- 			on b.no = t.board_no -->
+<!-- 		 inner join assa_member m -->
+<!-- 			on b.writer = m.nickname -->
+<!-- 		 where date(reg_date) = date(now()) -->
+<!-- 		   and b.writer = '승재형' -->
+<!-- 	</select>	 -->
+	
+	<!-- 오늘의 todo 중 완료한 todo의 수 가져오기. 승재형 -->
+<!-- 	<select id="selectCheckedTodoCntsjh" resultType="int"> -->
+<!-- 		select count(*) -->
+<!-- 		  from assa_board b -->
+<!-- 		 inner join assa_todo t -->
+<!-- 			on b.no = t.board_no -->
+<!-- 		 inner join assa_member m -->
+<!-- 			on b.writer = m.nickname -->
+<!-- 		 where date(reg_date) = date(now()) -->
+<!-- 		   and b.writer = '승재형' -->
+<!-- 		   and t.todo_check = 'y' -->
+<!-- 	</select> -->
+	
+		<!-- 1일 ~ 6일 전 날짜에 해당하는 체크된 todo 리스트의 수 가져오기. 승재형 -->
+<!-- 	<select id="selectCheckTodoCntsjh" parameterType="int" resultType="int"> -->
+<!-- 		select count(*) -->
+<!-- 		  from assa_board b -->
+<!-- 		 inner join assa_todo t -->
+<!-- 			on b.no = t.board_no -->
+<!-- 		 inner join assa_member m -->
+<!-- 			on b.writer = m.nickname -->
+<!-- 		 where date_format(reg_date, '%Y%m%d') = date_format(date_add(now(), interval -#{no+1} day), '%Y%m%d') -->
+<!-- 		   and b.writer = '승재형' -->
+<!-- 		   and t.todo_check = 'y' -->
+<!-- 	</select> -->
+
+	<!-- 1일 ~ 6일 전 날짜에 해당하는 todo 리스트의 수 가져오기. 승재형 -->
+<!-- 	<select id="selectTotalTodoCntsjh" parameterType="int" resultType="int"> -->
+<!-- 		select count(*) -->
+<!-- 		  from assa_board b -->
+<!-- 		 inner join assa_todo t -->
+<!-- 			on b.no = t.board_no -->
+<!-- 		 inner join assa_member m -->
+<!-- 			on b.writer = m.nickname -->
+<!-- 		 where date_format(reg_date, '%Y%m%d') = date_format(date_add(now(), interval -#{no+1} day), '%Y%m%d') -->
+<!-- 		   and b.writer = '승재형' -->
+<!-- 	</select> -->
+	
+		
+	<!-- 오늘의 총 todo 수 가져오기 수진이누나 -->
+<!-- 	<select id="selectTotalTodoCntsj" resultType="int"> -->
+<!-- 		select count(*) -->
+<!-- 		  from assa_board b -->
+<!-- 		 inner join assa_todo t -->
+<!-- 			on b.no = t.board_no -->
+<!-- 		 inner join assa_member m -->
+<!-- 			on b.writer = m.nickname -->
+<!-- 		 where date(reg_date) = date(now()) -->
+<!-- 		   and b.writer = '수진이누나' -->
+<!-- 	</select>	 -->
+	
+	<!-- 오늘의 todo 중 완료한 todo의 수 가져오기. 수진이누나 -->
+<!-- 	<select id="selectCheckedTodoCntsj" resultType="int"> -->
+<!-- 		select count(*) -->
+<!-- 		  from assa_board b -->
+<!-- 		 inner join assa_todo t -->
+<!-- 			on b.no = t.board_no -->
+<!-- 		 inner join assa_member m -->
+<!-- 			on b.writer = m.nickname -->
+<!-- 		 where date(reg_date) = date(now()) -->
+<!-- 		   and b.writer = '수진이누나' -->
+<!-- 		   and t.todo_check = 'y' -->
+<!-- 	</select> -->
+	
+		<!-- 1일 ~ 6일 전 날짜에 해당하는 체크된 todo 리스트의 수 가져오기. 수진이누나 -->
+<!-- 	<select id="selectCheckTodoCntsj" parameterType="int" resultType="int"> -->
+<!-- 		select count(*) -->
+<!-- 		  from assa_board b -->
+<!-- 		 inner join assa_todo t -->
+<!-- 			on b.no = t.board_no -->
+<!-- 		 inner join assa_member m -->
+<!-- 			on b.writer = m.nickname -->
+<!-- 		 where date_format(reg_date, '%Y%m%d') = date_format(date_add(now(), interval -#{no+1} day), '%Y%m%d') -->
+<!-- 		   and b.writer = '수진이누나' -->
+<!-- 		   and t.todo_check = 'y' -->
+<!-- 	</select> -->
+
+	<!-- 1일 ~ 6일 전 날짜에 해당하는 todo 리스트의 수 가져오기. 수진이누나 -->
+<!-- 	<select id="selectTotalTodoCntsj" parameterType="int" resultType="int"> -->
+<!-- 		select count(*) -->
+<!-- 		  from assa_board b -->
+<!-- 		 inner join assa_todo t -->
+<!-- 			on b.no = t.board_no -->
+<!-- 		 inner join assa_member m -->
+<!-- 			on b.writer = m.nickname -->
+<!-- 		 where date_format(reg_date, '%Y%m%d') = date_format(date_add(now(), interval -#{no+1} day), '%Y%m%d') -->
+<!-- 		   and b.writer = '수진이누나' -->
+<!-- 	</select> -->
+		
+	<!-- 오늘의 총 todo 수 가져오기 은비 -->
+<!-- 	<select id="selectTotalTodoCnteb" resultType="int"> -->
+<!-- 		select count(*) -->
+<!-- 		  from assa_board b -->
+<!-- 		 inner join assa_todo t -->
+<!-- 			on b.no = t.board_no -->
+<!-- 		 inner join assa_member m -->
+<!-- 			on b.writer = m.nickname -->
+<!-- 		 where date(reg_date) = date(now()) -->
+<!-- 		   and b.writer = '은비' -->
+<!-- 	</select>	 -->
+	
+	<!-- 오늘의 todo 중 완료한 todo의 수 가져오기. 은비 -->
+<!-- 	<select id="selectCheckedTodoCnteb" resultType="int"> -->
+<!-- 		select count(*) -->
+<!-- 		  from assa_board b -->
+<!-- 		 inner join assa_todo t -->
+<!-- 			on b.no = t.board_no -->
+<!-- 		 inner join assa_member m -->
+<!-- 			on b.writer = m.nickname -->
+<!-- 		 where date(reg_date) = date(now()) -->
+<!-- 		   and b.writer = '은비' -->
+<!-- 		   and t.todo_check = 'y' -->
+<!-- 	</select> -->
+	
+		<!-- 1일 ~ 6일 전 날짜에 해당하는 체크된 todo 리스트의 수 가져오기. 은비 -->
+<!-- 	<select id="selectCheckTodoCnteb" parameterType="int" resultType="int"> -->
+<!-- 		select count(*) -->
+<!-- 		  from assa_board b -->
+<!-- 		 inner join assa_todo t -->
+<!-- 			on b.no = t.board_no -->
+<!-- 		 inner join assa_member m -->
+<!-- 			on b.writer = m.nickname -->
+<!-- 		 where date_format(reg_date, '%Y%m%d') = date_format(date_add(now(), interval -#{no+1} day), '%Y%m%d') -->
+<!-- 		   and b.writer = '은비' -->
+<!-- 		   and t.todo_check = 'y' -->
+<!-- 	</select> -->
+
+	<!-- 1일 ~ 6일 전 날짜에 해당하는 todo 리스트의 수 가져오기. 은비 -->
+<!-- 	<select id="selectTotalTodoCnteb" parameterType="int" resultType="int"> -->
+<!-- 		select count(*) -->
+<!-- 		  from assa_board b -->
+<!-- 		 inner join assa_todo t -->
+<!-- 			on b.no = t.board_no -->
+<!-- 		 inner join assa_member m -->
+<!-- 			on b.writer = m.nickname -->
+<!-- 		 where date_format(reg_date, '%Y%m%d') = date_format(date_add(now(), interval -#{no+1} day), '%Y%m%d') -->
+<!-- 		   and b.writer = '은비' -->
+<!-- 	</select> -->
+
+	
+</mapper>

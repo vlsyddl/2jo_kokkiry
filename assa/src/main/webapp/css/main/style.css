@@ -27,7 +27,7 @@
 .contents .profile .todoList li{
     margin-top: 10px;
 }
-.contents .profile .todoList li.complete{
+.contents .profile .todoList ul.complete > li{
     text-decoration: line-through;
     color: #999;
 }

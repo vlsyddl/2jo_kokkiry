@@ -540,7 +540,7 @@ table.table.list > tbody > tr:last-child > td{
 .contents .profile .todoList li{
     margin-top: 10px;
 }
-.contents .profile .todoList li.complete{
+.contents .profile .todoList ul.complete{
     text-decoration: line-through;
     color: #999;
 }

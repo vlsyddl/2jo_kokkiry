@@ -68,11 +68,11 @@
 	                                    </div>
 	                                    <div class="latest02">
 	                                        <ul>
-	                                            <li><a href="#">스터디 <span class="latestCount"><span class="new">3</span> / <span class="total">50</span></span></a></li>
-	                                            <li><a href="#">일상 <span class="latestCount"><span class="new">3</span> / <span class="total">50</span></span></a></li>
-	                                            <li><a href="#">사진첩 <span class="latestCount"><span class="new">3</span> / <span class="total">50</span></span></a></li>
+	                                            <li><a href="#">스터디 <span class="latestCount"><span class="new"></span> / <span class="total">${totalStudy}</span></span></a></li>
+	                                            <li><a href="#">일상 <span class="latestCount"><span class="new">${todayDaily}</span> / <span class="total">${totalDaily}</span></span></a></li>
+	                                            <li><a href="#">사진첩 <span class="latestCount"><span class="new">3</span> / <span class="total">3</span></span></a></li>
 	                                            <li><a href="#">오늘의 할일 <span class="latestCount"><span class="new">3</span> / <span class="total">50</span></span></a></li>
-	                                            <li><a href="#">자료실 <span class="latestCount"><span class="new">3</span> / <span class="total">50</span></span></a></li>
+	                                            <li><a href="#">자료실 <span class="latestCount"><span class="new">${todayData}</span> / <span class="total">${totalData}</span></span></a></li>
 	                                        </ul>
 	                                    </div>
 	                                </div>
@@ -255,6 +255,16 @@
               $(".pause").hide();
               $(".play").show();
           })
+          
+		$(function () {
+			$.ajax({
+		 		url: "<c:url value="/main/lastBoard.json" />",
+		 	})
+		 	.done(function (result) {
+		 		$("type study").val(${lastMap.lastStudy})
+			};
+		 });	
+		
     </script>
 </body>
 </html>
