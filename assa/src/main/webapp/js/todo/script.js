@@ -3,20 +3,12 @@
  */
 $(document).ready(function(){
 	
-	/*$(function(){
-		$.ajax({
-			리스트 구축
-		})
-	})*/
-
-	
-	
 	var todoCtn = 1;
     var liHeight = $(".todoList li").innerHeight();
     console.log(liHeight)
      $(".addTodo").click(function(){
          todoCtn++;
-         var li = '<li><input type="text" name="todo'+todoCtn+'" id="todo'+todoCtn+'"><a href="#" class="delTodo" onclick="delTodo('+todoCtn+')">X</a></li>'
+         var li = '<li><input type="text" class="inputTodo" name="todo" id="todo'+todoCtn+'"><a href="#" class="delTodo" onclick="delTodo('+todoCtn+')">X</a></li>'
          var list = $(".list_todo")
          if(todoCtn > 5){
              alert("할일은 5개 만 등록 가능합니다")
@@ -52,4 +44,83 @@ $(document).ready(function(){
      $("dl.accWrap.disabled").each(function(){
          $(this).find("input[type=checkbox]").prop("disabled",true)
      })  
+     //세션에 들어가있는 아이디랑 작성된 작성와 매칭이 안되면 disabled 걸린다. 
+     
 })
+// TODOLIST 넣기 
+ 
+	
+// TODOLIST insert 메소 	
+function insertTitle(){
+	var todoLists = new Array();
+	var title = $("input[id='todo_title']").val();
+	var writer = $("input[name='writer']").val();
+	
+	$("input[name='todo']").each(function(){
+		todoLists.push($(this).val()); 
+		console.dir(todoLists.toString());
+	});
+	
+	var board = {"title":title, "writer":writer, "todoLists":todoLists.join(",")};
+	console.log(title,writer);
+ 	$.ajax({
+ 		url:"/assa/inputTodo.do",
+ 		type:"POST",
+ 		data: board,
+ 		success: function(data){
+ 			getTodoList(data);
+ 		}
+ 	});
+ 	
+ 	
+}
+//function getNo(data){
+//var no; 
+//	for(var i = 0; i< data.length; i++){
+//		no=data[0].no;
+//	}
+//	return no;
+//	
+//}
+
+
+
+function getTodoList(data){
+	for(var i = 0; i< data.length; i++){
+		$(".todoAccordian").html(
+				"<dl class='accWrap'>"
+				+		"<dt>"
+				+			data[i].title + "<span class='todo_id' name='todotitle'>"+data[i].writer+"</span>"
+				+		"</dt>"		
+				+"</dl>"
+		);
+		
+	}
+	// 글넘버로 호출 
+//	todoList(data);
+	
+}
+
+
+//function todoList(data){
+//	var no
+//	for(var i = 0; i< data.length; i++){
+//		no=data[i].no 
+//		console.log(no);
+//	}
+//	
+//	$.ajax({
+//		url:"/assa/todoList.do",
+//		type:"POST",
+//		data:{"no":no},
+//		success: function(data){
+// 			console.log(data);
+// 		},
+// 		error:function(request, status, error) {
+//        console.log("status : " + request.status  + "error:" + error);
+//       }
+//
+//
+//	});
+//}
+
