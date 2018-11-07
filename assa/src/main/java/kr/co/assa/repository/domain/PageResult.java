@@ -14,7 +14,6 @@ public class PageResult {
 	private int endPage;
 	private boolean prev; 
 	private boolean next; 
-	
 	/*
 	 * @param count :게시물 개수
 	 */

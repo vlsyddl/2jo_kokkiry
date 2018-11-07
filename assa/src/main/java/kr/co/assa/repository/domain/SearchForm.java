@@ -40,4 +40,9 @@ public class SearchForm {
 	public void setCategory(int category) {
 		this.category = category;
 	}
+	@Override
+	public String toString() {
+		return "SearchForm [type=" + type + ", content=" + content + ", pageNo=" + pageNo + ", category=" + category
+				+ "]";
+	}
 }
