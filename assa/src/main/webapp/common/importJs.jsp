@@ -7,3 +7,4 @@
 <script src="<c:url value="/js/wow.min.js"/>"></script>
 <script src="<c:url value="/js/bootstrap.js"/>"></script>
 <script src="<c:url value="/js/script.js"/>"></script>
+<script src="<c:url value="/js/waitme/waitMe.js"/>"></script>
