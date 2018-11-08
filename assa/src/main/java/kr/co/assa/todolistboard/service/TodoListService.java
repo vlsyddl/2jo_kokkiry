@@ -43,7 +43,13 @@ public interface TodoListService {
 	 * @param no
 	 * @return
 	 */
-	List<TodoBoard> selectTodoListByNo(int no);
+//	List<TodoBoard> selectTodoListByNo(int no);
+	
+	List<Board> selectBoard();
+	
+	//todo List
+	Board selectTitle(Integer no);
+	List<TodoList> selectTodo(Integer no); 
 	
 }
 	

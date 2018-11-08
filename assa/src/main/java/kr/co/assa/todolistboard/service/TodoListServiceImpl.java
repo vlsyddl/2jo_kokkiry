@@ -39,10 +39,24 @@ public class TodoListServiceImpl implements TodoListService{
 	}
 
 
+
 	@Override
-	public List<TodoBoard> selectTodoListByNo(int no) {
+	public List<Board> selectBoard() {
 		
-		return mapper.selectTodoListByNo(no);
+		return mapper.selectBoard();
+	}
+
+	//todo list
+	@Override
+	public Board selectTitle(Integer no) {
+		
+		return mapper.selectTitle(no);
+	}
+
+	@Override
+	public List<TodoList> selectTodo(Integer no) {
+		
+		return mapper.selectTodo(no);
 	}
 
 	

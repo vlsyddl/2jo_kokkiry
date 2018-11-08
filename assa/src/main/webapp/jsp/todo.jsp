@@ -32,11 +32,12 @@
 										class="img-responsive center-block">
 								</div>
 								<div class="todoList">
-								<c:forEach var="todo" begin="" end="4" items="${todoBoard}"> 
-									<ul>
-										<li>${todo.todo}</li>
+									<ul class="notYet">
+										<li></li>
 									</ul>
-								</c:forEach>
+									<ul class="complete">
+									    <li></li>
+									</ul>
 								</div>
 								<div class="infoBox">
 									<p class="info01">
@@ -87,10 +88,10 @@
 											<dd>
 											<c:forEach var="todo"  items="${todoBoard}">
 												<ul class="todoUl">
-													<li><input type="hidden" value="${todo.no}"
-														name="boardNo" /> <input type="checkbox"
-														value="${todo.todoCheck}" name="todoCheck" id="todoChk1">
-														<label name="todoListTitle" for="todoChk1">${todo.todo}</label>
+													<li> 
+													<input type="hidden" value="${todo.no}"name="boardNo" />
+													<input type="checkbox" value="${todo.todoCheck}" name="todoCheck" id="todoChk1">
+													<label name="todoListTitle" for="todoChk1">${todo.todo}</label>
 													</li>
 												</ul>
 												<a href="#" class="todo_modify">수정하기</a>
@@ -98,7 +99,7 @@
 											</dd>
 										</dl> 
 									</div> 
-
+									
 								</div>
 							</div>
 							<span class="chain chain01"></span> <span class="chain chain02"></span>

@@ -44,13 +44,20 @@ $(document).ready(function(){
      $("dl.accWrap.disabled").each(function(){
          $(this).find("input[type=checkbox]").prop("disabled",true)
      })  
-     //세션에 들어가있는 아이디랑 작성된 작성와 매칭이 안되면 disabled 걸린다. 
+     // 세션에 들어가있는 아이디랑 작성된 작성와 매칭이 안되면 disabled 걸린다.
+
      
+//     var html ="";
+// 	$(" ul.complete ").html(html);
+// 	for(var i=0;i<result.length;i++){
+// 		html += "<li>"+result[i].todo+"</li>"
+// 	}
+// 	$("ul.notYet").html(html);
 })
-// TODOLIST 넣기 
+
  
 	
-// TODOLIST insert 메소 	
+// TODOLIST insert 메소
 function insertTitle(){
 	var todoLists = new Array();
 	var title = $("input[id='todo_title']").val();
@@ -68,59 +75,81 @@ function insertTitle(){
  		type:"POST",
  		data: board,
  		success: function(data){
+ 			console.log(data);
  			getTodoList(data);
+
  		}
  	});
  	
  	
 }
-//function getNo(data){
-//var no; 
-//	for(var i = 0; i< data.length; i++){
-//		no=data[0].no;
-//	}
-//	return no;
-//	
-//}
 
-
+function getProfileTodo(data){
+	console.log(data)
+	for(var i = 0; i< data.length; i++){
+		$(".todoList ul").append(
+					"<li>"+data[i].todo+"</li>"
+		
+		);
+	}
+}
 
 function getTodoList(data){
-	for(var i = 0; i< data.length; i++){
-		$(".todoAccordian").html(
-				"<dl class='accWrap'>"
-				+		"<dt>"
-				+			data[i].title + "<span class='todo_id' name='todotitle'>"+data[i].writer+"</span>"
-				+		"</dt>"		
-				+"</dl>"
+	console.dir(data);
+	$.ajax({
+		url:"/assa/getTitleAndWriter.do",
+		type:"POST",
+		data: "data="+data
+	}).done(function(result){
+		getTodoTitle(result)
+	});
+	
+
+}
+function getTodoTitle(result){
+
+	$(".itemsWrap").html(
+			"<dl class='accWrap'>"
+			+		"<dt>"
+			+			result.title + "<span class='todo_id' name='todotitle'>"+result.writer+"</span>"
+			+		"</dt>"		
+			+"</dl>"
+			+"<dd>"
+			+"<ul class='todoUl'>"
+			+"</ul>"
+			+"</dd>"
+	);
+	getTodos(result.no);
+}
+
+function getTodos(data){
+	$.ajax({
+		url:"/assa/getTodos.do",
+		type:"POST",
+		data: "data="+data
+	}).done(function(result){
+		console.log(result);
+		getTodo(result);
+	});
+}
+
+function getTodo(result){
+	for(var i=0;i<result.length;i++){
+		console.log(result[i]);
+		$(".todoUl").append(
+				"<li> <input type='checkbox'"
+				+				" value="+result[i].todoCheck+"name='todoCheck' id='todoChk"+i+"'>"
+				+				"<label name='todoListTitle' for='todoChk"+i+"'>"+result[i].todo+"</label>"
+				+			"</li>"
 		);
 		
 	}
-	// 글넘버로 호출 
-//	todoList(data);
+	var html ="";
+	$(" ul.complete ").html(html);
+	for(var i=0;i<result.length;i++){
+		html += "<li>"+result[i].todo+"</li>"
+	}
+	$("ul.notYet").html(html);
 	
 }
-
-
-//function todoList(data){
-//	var no
-//	for(var i = 0; i< data.length; i++){
-//		no=data[i].no 
-//		console.log(no);
-//	}
-//	
-//	$.ajax({
-//		url:"/assa/todoList.do",
-//		type:"POST",
-//		data:{"no":no},
-//		success: function(data){
-// 			console.log(data);
-// 		},
-// 		error:function(request, status, error) {
-//        console.log("status : " + request.status  + "error:" + error);
-//       }
-//
-//
-//	});
-//}
 

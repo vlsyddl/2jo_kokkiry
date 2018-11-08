@@ -9,12 +9,16 @@ import kr.co.assa.repository.domain.TodoList;
 public interface TodoListMapper {
 	// todo 목록 불러오기 
 	
-	List<TodoList> selecteTodo(Integer boardNo);
 	Board selectTodoTitle(Integer boardNo);
 	
 	List<TodoBoard> selectTodoList(TodoBoard todoBoard);
+
 	
-	List<TodoBoard> selectTodoListByNo(int no);
+	List<Board> selectBoard();
+	
+	// list
+	Board selectTitle(Integer no);
+	List<TodoList> selectTodo(Integer no); 
 	
 	//insert
 	int insertTitle(Board board);// board no값 받아오기
