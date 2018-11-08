@@ -111,6 +111,13 @@ public class LoginController {
 	public void signup(Member member) {
 		member.setPhone(String.join("", member.getNphone()));
 		member.setBirth(String.join("",member.getNbirth()));	
+		member.setPassword(encryption.encrypt(member.getPassword()));
+		member.setProfileName("/img");
+		if(member.getGender()=="M") {
+			member.setProfileName("male-avatar.png");
+		}else {
+			member.setProfileName("fmale-avatar.png");
+		}
 		mapper.insertMemer(member);
 	}
 	
