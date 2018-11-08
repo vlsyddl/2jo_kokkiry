@@ -99,17 +99,17 @@
 	     <div class="form-group triple">
 	     	<label for="birth1" class="col-sm-3 control-label">생년월일</label>
 		    <div class="col-sm-9">
-		       <input type="text" name="nbirth" size=4 minlength="4" maxlength=4  class="form-control" id="birth1"/>년
-			    <input type="text" name="nbirth" size=2 minlength="2" maxlength=2  class="form-control" id="birth2"/>월
-			    <input type="text" name="nbirth" size=2 minlength="2" maxlength=2  class="form-control" id="birth3"/>일
+		       <input type="text" name="nbirth" size=4  maxlength=4  class="form-control 4length" id="birth1"/>년
+			    <input type="text" name="nbirth" size=2  maxlength=2  class="form-control 2length" id="birth2"/>월
+			    <input type="text" name="nbirth" size=2  maxlength=2  class="form-control 2length" id="birth3"/>일
 		    </div>
 	     </div>
 	    <div class="form-group triple" >
 	    	<label for="phone1" class="col-sm-3 control-label">연락처  </label>
 		    <div class="col-sm-9">
-		       	<input type="text" name="nphone" size=3 minlength="3" maxlength=3   class="form-control" id="phone1"/> -
-			    <input type="text" name="nphone" size=4 minlength="4" maxlength=4   class="form-control" id="phone2"/> -
-			    <input type="text" name="nphone" size=4 minlength="4" maxlength=4   class="form-control" id="phone3"/>
+		       	<input type="text" name="nphone" size=3  maxlength=3   class="form-control 3length" id="phone1"/> -
+			    <input type="text" name="nphone" size=4  maxlength=4   class="form-control 4length" id="phone2"/> -
+			    <input type="text" name="nphone" size=4  maxlength=4   class="form-control 4length" id="phone3"/>
 		    </div>
 	    </div>
 	    </form>
@@ -360,14 +360,10 @@
     				}else if(!($("input[name=rePassoword]").hasClass("valid"))||!($("input[name=rePassoword]").hasClass("valid"))){
     					alert("비밀번호는 영어 소문자, 대문자, 숫자, 특수문자(!@#$%^*+=-)를 1개씩 각각 포함 해야 합니다.");
     					return false;
-    				}else if(/[^0-9]/.test($("input[name='nbirth']").val())&&/[^0-9]/.test($("input[name='nphone']").val())){
-    						alert("숫자만 입력 가능합니다.");
+    				}else if(/[^0-9]{4}/.test($("input[class='4length']").val())&&/[^0-9]{3}/.test($("input[class='3length']").val())&/[^0-9]{2}/.test($("input[class='2length']").val())){
+    						alert("숫자만 입력만 가능합니다.\n전화번호는 3자리, 4자리, 4자리, 연락처는 3자리, 4자리, 4자리의 숫자 형태입니다.");
     						return false;
     				}
-    				/* if($("input[name=nphone], input[name=nbirth]").length != $(this).attr("maxlength")){
-    					alert("숫자길이를")
-    					return false;
-    				} */
     			}
     		}).done(function (cnt) {
     			if(cnt !=0){
