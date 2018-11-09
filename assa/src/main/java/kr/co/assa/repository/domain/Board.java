@@ -14,5 +14,4 @@ public class Board {
 	private Date regDate;
 	private int count;
 	private int category;
-
 }

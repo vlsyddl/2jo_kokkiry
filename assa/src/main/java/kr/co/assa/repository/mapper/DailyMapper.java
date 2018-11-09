@@ -23,13 +23,5 @@ public interface DailyMapper {
 	int recCount(Recomm recomm);
 	void insertRec(Recomm recomm);
 	void deleteRec(Recomm recomm);
-	*/
-	
-	
-	
-	
-
-	
-//	void updateComment(int no);
-	
+	*/	
 }

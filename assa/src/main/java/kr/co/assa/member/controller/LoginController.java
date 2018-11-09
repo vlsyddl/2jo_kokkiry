@@ -2,23 +2,12 @@ package kr.co.assa.member.controller;
 
 
 
-import java.io.File;
-import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.View;
-import org.springframework.web.servlet.view.InternalResourceView;
-import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 import kr.co.assa.repository.domain.Member;
 import kr.co.assa.repository.mapper.MemberMapper;
@@ -37,6 +26,9 @@ public class LoginController {
 
 	/**  로그인    */
 
+	@RequestMapping("/main.do")
+	public void loginMain() {}
+	
 	@RequestMapping("/login.k")
 	public String login() {
 		return "login";
@@ -47,6 +39,7 @@ public class LoginController {
 	public Member loginVerify(Member member,  HttpSession session) {
 		member.setPassword(encryption.encrypt(member.getPassword()));
 		session.setAttribute("member", mapper.login(member));
+		System.out.println(session.getAttribute("member"));
 		return mapper.login(member);
 	}
 	

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import kr.co.assa.repository.domain.Attach;
 import kr.co.assa.repository.domain.Board;
 import kr.co.assa.repository.domain.Comment;
+import kr.co.assa.repository.domain.Recomm;
 import kr.co.assa.repository.domain.SearchForm;
 import kr.co.assa.repository.mapper.BoardMapper;
 
@@ -91,6 +92,24 @@ public class BoardServiceImpl implements BoardService{
 	public int[] boardPrevNext(int no, int category) {
 		// TODO Auto-generated method stub
 		return mapper.boardPrevNext(no, category);
+	}
+
+	@Override
+	public int insertRecomm(Recomm recomm) {
+		// TODO Auto-generated method stub
+		return mapper.insertRecomm(recomm);
+	}
+
+	@Override
+	public int deleteRecomm(Recomm recomm) {
+		// TODO Auto-generated method stub
+		return mapper.deleteRecomm(recomm);
+	}
+
+	@Override
+	public Recomm selectRecomm(Recomm recomm) {
+		// TODO Auto-generated method stub
+		return mapper.selectRecomm(recomm);
 	}
 
 }

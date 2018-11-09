@@ -43,7 +43,7 @@ public interface TodoListService {
 	 * @param no
 	 * @return
 	 */
-//	List<TodoBoard> selectTodoListByNo(int no);
+
 	
 	List<Board> selectBoard();
 	
@@ -52,4 +52,5 @@ public interface TodoListService {
 	List<TodoList> selectTodo(Integer no); 
 	
 }
-	
+	
+

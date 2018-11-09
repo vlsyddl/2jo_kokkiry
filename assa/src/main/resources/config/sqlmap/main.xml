@@ -120,6 +120,7 @@
 		    on b.writer = m.nickname
 		 where date(reg_date) = date(now())
 		   and t.todo_check = 'y'
+		    <!-- and b.writer = '피뇽이' -->
 	</select>
 	
 	<!-- 프로필 밑 공간에 할 일 리스트 중 체크 안된 것 보여주기 -->
@@ -132,6 +133,7 @@
 		    on b.writer = m.nickname
 		 where date(reg_date) = date(now())
 		   and t.todo_check = 'n'
+		   <!-- and b.writer = '피뇽이' -->
 	</select>
 	
 	<!-- 오늘 방문자 수 확인 -->

@@ -6,6 +6,7 @@ import kr.co.assa.repository.domain.Attach;
 import kr.co.assa.repository.domain.Board;
 import kr.co.assa.repository.domain.Comment;
 import kr.co.assa.repository.domain.Page;
+import kr.co.assa.repository.domain.Recomm;
 import kr.co.assa.repository.domain.SearchForm;
 
 public interface BoardService {
@@ -22,4 +23,7 @@ public interface BoardService {
 	int updateBoardCnt(int no);
 	int updateBoard(Board board);
 	int[] boardPrevNext(int no, int category);
+	int insertRecomm(Recomm recomm);
+	int deleteRecomm(Recomm recomm);
+	Recomm selectRecomm(Recomm recomm);
 }
