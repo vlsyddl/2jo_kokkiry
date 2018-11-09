@@ -51,4 +51,5 @@ public class PageResult {
 
 	public boolean isNext() {return next;}
 
+	//
 }

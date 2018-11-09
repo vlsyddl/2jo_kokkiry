@@ -45,4 +45,5 @@ public class SearchForm {
 		return "SearchForm [type=" + type + ", content=" + content + ", pageNo=" + pageNo + ", category=" + category
 				+ "]";
 	}
+	//
 }

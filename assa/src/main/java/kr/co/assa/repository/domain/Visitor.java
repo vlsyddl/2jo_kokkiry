@@ -8,4 +8,4 @@ import lombok.Data;
 public class Visitor {
 	private Date visitDate;
 	private int cnt;
-} // end class
+} // end class//

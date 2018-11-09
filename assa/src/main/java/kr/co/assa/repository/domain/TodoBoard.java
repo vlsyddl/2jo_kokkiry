@@ -13,4 +13,6 @@ public class TodoBoard {
 	private Date regDate;
 	private String writer;
 	private String todoCheck;
+	
+	//
 }

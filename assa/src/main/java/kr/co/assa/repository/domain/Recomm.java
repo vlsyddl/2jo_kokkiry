@@ -7,4 +7,5 @@ public class Recomm {
 
 	private int no;
 	private String recommName;
+	//
 }

@@ -277,4 +277,13 @@ public class Member {
 				+ ", profilePath=" + profilePath + ", profileName=" + profileName + ", type=" + type +  "]";
 	} 
 
+	
+	
+	
+	//
+	
+	
+	
+	
+	
 }

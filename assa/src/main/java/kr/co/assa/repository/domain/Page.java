@@ -25,4 +25,5 @@ public class Page {
 	public void setCategory(int category) {
 		this.category = category;
 	}
+	//
 }
