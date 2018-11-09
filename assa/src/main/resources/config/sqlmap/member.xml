@@ -26,8 +26,8 @@
 	
 	<!-- 회원가입하기 -->
 	<insert id="insertMemer" parameterType="Member" >
-		insert into assa_member(user_email, password, name, nickname, phone, gender, birth)
-		values(#{userEmail}, #{password}, #{name}, #{nickname}, #{phone},#{gender}, #{birth})
+		insert into assa_member(user_email, password, name, nickname, phone, gender, birth, profile_path, profile_name)
+		values(#{userEmail}, #{password}, #{name}, #{nickname}, #{phone},#{gender}, #{birth}, #{profilePath}, #{profileName})
 	</insert>
 	
 	<select id="selectByUserEamil" parameterType="String" resultMap="memberMap">

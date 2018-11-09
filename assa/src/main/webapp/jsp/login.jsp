@@ -239,9 +239,9 @@
     			type: "POST",
     			data : $("#loginForm").serialize()
         	}).done(function (member){
-        		console.log("${member}");
-        		if("${member.userNo}"){
-        			alert("${member.name}"+"님 로그인 되었습니다.");
+        		console.log(member);
+        		if(member.userNo){
+        			alert(member.name+"님 로그인 되었습니다.");
         		}else{
         			alert("로그인을 실패 하었습니다.");
         		}
@@ -360,9 +360,12 @@
     				}else if(!($("input[name=rePassoword]").hasClass("valid"))||!($("input[name=rePassoword]").hasClass("valid"))){
     					alert("비밀번호는 영어 소문자, 대문자, 숫자, 특수문자(!@#$%^*+=-)를 1개씩 각각 포함 해야 합니다.");
     					return false;
-    				}else if(/[^0-9]{4}/.test($("input[class='4length']").val())&&/[^0-9]{3}/.test($("input[class='3length']").val())&/[^0-9]{2}/.test($("input[class='2length']").val())){
-    						alert("숫자만 입력만 가능합니다.\n전화번호는 3자리, 4자리, 4자리, 연락처는 3자리, 4자리, 4자리의 숫자 형태입니다.");
+    				} else if(!(/[0-9]{4}/.test($("#phone2, #phone3, #birth1").val())&&/[0-9]{3}/.test($("#phone1").val())&/[0-9]{2}/.test($("#birth2, #birth3").val()))){
+    						alert("숫자만 입력만 가능합니다.\n생년월일은 4자리, 2자리, 2자리, 연락처는 3자리, 4자리, 4자리의 숫자 형태입니다.");
     						return false;
+    				}else if(!$("input:checked").val()){
+    					alert("성별을 선택해 주세요.");
+    					return false;
     				}
     			}
     		}).done(function (cnt) {

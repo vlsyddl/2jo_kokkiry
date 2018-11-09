@@ -105,26 +105,26 @@ public class LoginController {
 	
 	
 	
-	/**  회원가입    */
+	/**  회원가입    
+	 * @return */
 	@ResponseBody
 	@RequestMapping("/signup.k")
-	public void signup(Member member) {
+	public int signup(Member member) {
 		member.setPhone(String.join("", member.getNphone()));
 		member.setBirth(String.join("",member.getNbirth()));	
 		member.setPassword(encryption.encrypt(member.getPassword()));
-		member.setProfileName("/img");
+		member.setProfilePath("/img");
 		if(member.getGender()=="M") {
 			member.setProfileName("male-avatar.png");
 		}else {
 			member.setProfileName("fmale-avatar.png");
 		}
-		mapper.insertMemer(member);
+		return mapper.insertMemer(member);
 	}
 	
 	@ResponseBody
 	@RequestMapping("/uniqueEmail.k")
 	public Member UniqueEmail(String userEmail) {
-		System.out.println(userEmail);
 		return mapper.selectByUserEamil(userEmail);
 	}
 	
