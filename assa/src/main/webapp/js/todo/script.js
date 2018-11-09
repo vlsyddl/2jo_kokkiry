@@ -43,9 +43,12 @@ $(document).ready(function(){
      })
      $("dl.accWrap.disabled").each(function(){
          $(this).find("input[type=checkbox]").prop("disabled",true)
-     })  
+     }) 
+     $("input:checkbox").on('click', function() { if ( $(this).prop('checked') ) { $(this).parent().addClass("selected"); } else { $(this).parent().removeClass("selected"); } });
+
      // 세션에 들어가있는 아이디랑 작성된 작성와 매칭이 안되면 disabled 걸린다.
 
+    
      
 //     var html ="";
 // 	$(" ul.complete ").html(html);
@@ -55,7 +58,38 @@ $(document).ready(function(){
 // 	$("ul.notYet").html(html);
 })
 
- 
+ var todoCtn = 1;
+    var liHeight = $(".todoList li").innerHeight();
+    console.log(liHeight)
+     $(".addTodo").click(function(){
+         todoCtn++;
+         var li = '<li><input type="text" class="inputTodo" name="todo" id="todo'+todoCtn+'"><a href="#" class="delTodo" onclick="delTodo('+todoCtn+')">X</a></li>'
+         var list = $(".list_todo")
+         if(todoCtn > 5){
+             alert("할일은 5개 만 등록 가능합니다")
+             todoCtn = 5
+             return;
+         }
+         list.append(li)
+         $(".formWrap .btnBox").animate({"padding-top":"+="+liHeight},300)
+     })
+     function delTodo(no){
+         todoCtn--;
+         var li = $(".formWrap li").eq(no -1);
+         if(todoCtn < 1){
+             alert("할일은 1개 이상이여만 합니다.")
+             todoCtn = 1;
+             return
+         }
+         li.remove();
+         $(".formWrap .btnBox").animate({"padding-top":"-="+liHeight},300)
+     }
+    
+     $("dl.accWrap.disabled").each(function(){
+         $(this).find("input[type=checkbox]").prop("disabled",true)
+     }) 
+     $("input:checkbox").on('click', function() { if ( $(this).prop('checked') ) { $(this).parent().addClass("selected"); } else { $(this).parent().removeClass("selected"); } });
+
 	
 // TODOLIST insert 메소
 function insertTitle(){
@@ -109,16 +143,16 @@ function getTodoList(data){
 function getTodoTitle(result){
 
 	$(".itemsWrap").html(
-			"<dl class='accWrap'>"
+			"<dl class='accWrap on'>"
 			+		"<dt>"
 			+			result.title + "<span class='todo_id' name='todotitle'>"+result.writer+"</span>"
 			+		"</dt>"		
 			+"</dl>"
-			+"<dd>"
+			+"<dd style='display:display: block; background: #FED2C7; padding: 5px 10px; position: relative;'>"
 			+"<ul class='todoUl'>"
 			+"</ul>"
 			+"</dd>"
-	);
+	).trigger("create");
 	getTodos(result.no);
 }
 
@@ -136,14 +170,16 @@ function getTodos(data){
 function getTodo(result){
 	for(var i=0;i<result.length;i++){
 		console.log(result[i]);
-		$(".todoUl").append(
-				"<li> <input type='checkbox'"
-				+				" value="+result[i].todoCheck+"name='todoCheck' id='todoChk"+i+"'>"
-				+				"<label name='todoListTitle' for='todoChk"+i+"'>"+result[i].todo+"</label>"
-				+			"</li>"
-		);
+		$("ul.todoUl").append(
+				"<li> "
+				+ "<input type='checkbox'value="+result[i].todoCheck+"name='todoCheck' id='todoChk"+i+"'>"
+				+ "<label name='todoListTitle' for='todoChk"+i+"'>"+result[i].todo+"</label>"
+				+"</li>"
+				+"<a href='#' class='todo_modify'>수정하기</a>"
+		).trigger("create");
 		
 	}
+	
 	var html ="";
 	$(" ul.complete ").html(html);
 	for(var i=0;i<result.length;i++){
@@ -152,4 +188,6 @@ function getTodo(result){
 	$("ul.notYet").html(html);
 	
 }
+
+
 
