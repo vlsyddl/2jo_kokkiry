@@ -55,7 +55,7 @@ public class DailyServiceImpl implements DailyService{
 		 mapper.insertDaily(board);
 	}
 
-	@Override
+	/*@Override
 	public int dailyRecCount(Recomm recomm) {
 		
 		return mapper.recCount(recomm);
@@ -71,7 +71,7 @@ public class DailyServiceImpl implements DailyService{
 	public void dailyRecDel(Recomm recomm) {
 		mapper.deleteRec(recomm);
 		
-	}
+	}*/
 
 	@Override
 	public void commentWrite(Comment comment) {
@@ -81,6 +81,24 @@ public class DailyServiceImpl implements DailyService{
 	@Override
 	public int commentDelete(int commentNo) {
 		return mapper.deleteComment(commentNo);
+	}
+
+	@Override
+	public int dailyRecCount(Recomm recomm) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void dailyRecInsert(Recomm recomm) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dailyRecDel(Recomm recomm) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

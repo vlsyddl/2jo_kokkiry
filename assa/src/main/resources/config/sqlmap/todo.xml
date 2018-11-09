@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.assa.repository.mapper.TodoListMapper">
+	<resultMap id="todoMap" type="TodoList">
+		<result column="board_no" property="boardNo" />
+		<result column="todo_no" property="todoNo" />
+		<result column="todo_check" property="todoCheck" />
+	</resultMap>
+	<resultMap id="boardMap" type="board">
+			<result column="no" property="no" />
+			<result column="writer" property="writer" />
+			<result column="title" property="title" />
+			<result column="content" property="content" />
+			<result column="reg_date" property="regDate" />
+			<result column="count" property="count" />
+			<result column="category" property="category" />
+	</resultMap>
+	<resultMap type="TodoBoard" id="todoBoardMap">
+		<result column="reg_date" property="regDate" />
+		<result column="todo_check" property="todoCheck" />
+	</resultMap>
+	
+	
+	<select id="selectTodo" parameterType="int"  resultMap="boardMap">
+		select * 
+		 from assa.assa_board
+		where category = 4
+		order by no desc
+		limit 0, 10	
+	</select>
+	<select id="selectListTodo" parameterType="TodoList" resultMap="todoMap">
+		select * 
+		 from assa.assa_todo
+		where board_no = ${boardNo}
+	</select>
+	
+	<select id="selectTodayTodo">
+		select * 
+		 from assa.assa_board
+		where category = ${category 
+		  and writer = ${writer} 
+		  and date_format(reg_date, '%Y%m%d') = date_format(now(), '%Y%m%d');
+	</select>
+	
+	
+	
+	
+	
+	
+	
+
+
+
+	<!-- todo list -->
+	<!-- todo 리스트 -->
+
+	<select id="selectTodoList" parameterType="TodoBoard" resultMap="todoBoardMap">
+		select b.writer, b.title, t.todo as todo, b.reg_date, b.no,
+		t.todo_check
+		from assa_board b inner join assa_todo t
+		on b.no = t.board_no
+		where date_format(b.reg_date, '%Y%m%d') = date_format(now(), '%Y%m%d')
+	</select>
+	
+	<select id="selectTodoListByNo" parameterType="int" resultMap="todoBoardMap">
+		select b.writer, b.title, t.todo as todo, b.reg_date, b.no,
+		t.todo_check
+		from assa_board b inner join assa_todo t
+		on b.no = t.board_no
+		where no = #{no}
+	</select>
+	
+	
+	
+	<!-- todo 등록 -->
+	<insert id="insertTitle" parameterType="Board" useGeneratedKeys="true"	keyProperty="no">
+		insert into assa_board(
+			title , writer, category
+		)values(
+			#{title}, #{writer}, 4
+		)
+	</insert>
+	
+	<insert id="insertTodo" parameterType="TodoList">
+		insert into 
+		assa_todo( board_no, todo) values ( #{boardNo}, #{todo})
+	</insert>
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

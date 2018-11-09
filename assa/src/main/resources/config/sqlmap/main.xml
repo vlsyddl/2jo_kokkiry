@@ -29,7 +29,7 @@
 		<result column="type" property="type" />
 	</resultMap>
 	
-	<resultMap id="todoMap" type="Todo">
+	<resultMap id="todoMap" type="TodoBoard">
 		<result column="board_no" property="boardNo" />
 		<result column="todo_no" property="todoNo" />
 		<result column="title" property="title" />

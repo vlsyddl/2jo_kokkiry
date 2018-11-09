@@ -8,6 +8,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%-- 		<c:redirect url="/board/list.do"></c:redirect> --%>
+	<c:redirect url="/login/main.do"></c:redirect>	
 </body>
 </html>

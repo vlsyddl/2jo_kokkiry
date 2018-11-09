@@ -88,7 +88,7 @@ public class DailyController {
 		 service.dailyRecInsert(recomm);
 	}
 	
-	@RequestMapping("/board/recDelete.json")
+	/*@RequestMapping("/board/recDelete.json")
 	public int deleteRec(Recomm recomm) {
 		return mapper.recCount(recomm);
 	}
@@ -96,7 +96,7 @@ public class DailyController {
 	public int recount(int no) {
 		return mapper.rec(no);
 	}
-
+*/
 	
 	
 	

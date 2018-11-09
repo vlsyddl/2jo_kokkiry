@@ -1,215 +1,142 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.co.assa.repository.mapper.TodoListMapper">
-	<resultMap id="todoMap" type="TodoList">
-		<result column="board_no" property="boardNo" />
-		<result column="todo_no" property="todoNo" />
-		<result column="todo_check" property="todoCheck" />
-	</resultMap>
-	<resultMap id="boardMap" type="board">
-			<result column="no" property="no" />
-			<result column="writer" property="writer" />
-			<result column="title" property="title" />
-			<result column="content" property="content" />
-			<result column="reg_date" property="regDate" />
-			<result column="count" property="count" />
-			<result column="category" property="category" />
-<!-- 		<collection property="Comment" resultMap="commentMap" ></collection> -->
-	</resultMap>
-	<resultMap type="Comment" id="commentMap">
-		<result column="comment_no" property="commentNo" />
-		<result column="board_no" property="boardNo" />
-		<result column="comment_writer" property="commentWriter" />
-		<result column="comment_content" property="commentContent" />
-		<result column="comment_reg_date" property="commentRegDate" />
-	</resultMap>
-	<resultMap type="TodoBoard" id="todoBoardMap">
+<mapper namespace="kr.co.assa.repository.mapper.BoardMapper">
+	<resultMap id="boardMap" type="Board">
+		<result column="no" property="no" />
+		<result column="writer" property="writer" />
+		<result column="title" property="title" />
+		<result column="content" property="content" />
 		<result column="reg_date" property="regDate" />
-		<result column="todo_check" property="todoCheck" />
+		<result column="count" property="count" />
+		<result column="category" property="category" />
 	</resultMap>
 	
+	<resultMap type="comment" id="commentMap">
+		<result column="board_no" property="boardNo"/>
+		<result column="comment_no" property="commentNo"/>
+		<result column="comment_content" property="commentContent"/>
+		<result column="comment_writer" property="commentWriter"/>
+		<result column="comment_reg_date" property="commentRegDate"/>
+	</resultMap>
 	
-	<!-- 전체 목록 가져오기 -->
-	<select id="selectDaily" resultMap="boardMap">
-		select *
-		  from assa_board
-		  where category = #{category}
-		 order by no desc 
-	</select>
-	
-<!-- 	select date_format(reg_date, '%Y%m%d') as reg_date -->
-<!--   from assa_board; -->
-	
-	
-	<select id="selectComment" parameterType="int" resultMap="commentMap">
-		select *
-		 from assa_comment
-		where board_no= #{boardNo}
-		order by comment_no desc
-	</select>
-
-	 <!-- 일상 게시판 글 + 댓글 --> 
-<!-- 	<select id="selectComment" resultMap="boardMap"> -->
-<!-- 	select  * -->
-<!-- 	 from assa_board b -->
-<!-- 	 left outer join assa_comment c -->
-<!-- 	  on b.no = c.board_no -->
-<!--      where b.category = 2 -->
-<!--      and b.no = c.board_no -->
-<!--     order by b.no desc -->
-<!-- 	</select> -->
-	
-
-	
-	<!-- 게시물 등록하기 : insertBoard -->
-	<insert id="insertDaily" parameterType="board">
-		insert into assa_board(
-			 title, writer, content, category 
-		) values (
-			 #{title}, #{writer}, #{content}, 2
-		)
-	</insert>
-	
-	<!-- 댓글 등록 -->
-	<insert id="insertComment" parameterType="Comment">
-		insert into
-		assa_comment(
-		board_no, comment_writer, comment_content
-		)values(
-		#{boardNo}, #{commentWriter}, #{commentContent}
-		)
-	</insert>
-	
-	<!--  댓글 삭제 -->
-	<delete id="deleteComment" parameterType="int">
-    	delete 
-    	  from assa_comment
-    	 where comment_no = #{commentNo}
-    </delete>
-	
-	
-	
-	
-	<!-- 게시물 삭제 -->
-    <select id="selectDailyByNo" parameterType="int" resultMap="boardMap">
-    	select *
-    	  from assa_board
-    	 where no = #{no} 
-    </select>	
+	<resultMap type="attach" id="attachMap">
+		<result column="no" property="no"/>
+		<result column="file_name" property="fileName"/>
+		<result column="file_path" property="filePath"/>
+		<result column="file_no" property="fileNo"/>
+		<result column="ori_name" property="oriName"/>
+	</resultMap>
+    <!-- 스터디 리스트 -->
+    <select id="boardList" parameterType="SearchForm" resultMap="boardMap">
     	
-    <delete id="deleteDaily" parameterType="int">
-    	delete 
-    	  from assa_board
-    	 where no = #{no}
-    </delete>
-        
+		select * 
+		 from assa.assa_board
+		 where category = #{category}
+	 	   <if test="content != 'null'">
+	 	      and ${type} like CONCAT('%',#{content},'%')
+	 	   </if>
+		 order by no desc
+		 limit #{begin}, 10
+    </select>
     
-    
-    <update id="updateBoard" parameterType="board">
-    	update assa_board
-    	   set title = #{title},
-    	       content = #{content}
-    	 where no = #{no}
-    </update>	 
-    
-    
-    
-    
-    
-    
-
-
-	<update id="updateComment" parameterType="int">
-		update assa_comment
-		set content = #{content}
-		where comment_no = #{commentNo}
-	</update>
-
-	<!-- 게시글 추천수 -->
-	<select id="rec" resultType="int">
+	<!-- 전체 게시물의 수 (조건에 맞는)-->
+	<select id="selectBoardCount" parameterType="SearchForm" resultType="int">
 		select count(*)
-		from assa_recomm
-		where no=#{no}
-	</select>
-
-	<!-- 추천여부 확인 -->
-	<select id="recCount" resultType="int" parameterType="Recomm">
-		select
-		count(*)
-		from assa_recomm
-		where no=#{no}
-		and recomm_name=#{recommName}
-	</select>
-
-	<!-- 추천하기 -->
-	<insert id="insertRec" parameterType="Recomm">
-		insert into assa_recomm(
-		no, recomm_name
-		) values (
-		#{no}, #{recommName}
-		)
-	</insert>
-
-	<!-- 추천취소 -->
-	<delete id="deleteRec" parameterType="Recomm">
-		delete assa_recomm
-		where
-		no=#{no}
-		and recomm_name= #{recommName}
-	</delete>
-	
-	
-	
-	
-	
-	
-
-
-
-	<!-- todo list -->
-	<!-- todo 리스트 -->
-
-	<select id="selectTodoList" parameterType="TodoBoard" resultMap="todoBoardMap">
-		select b.writer, b.title, t.todo as todo, b.reg_date, b.no,
-		t.todo_check
-		from assa_board b inner join assa_todo t
-		on b.no = t.board_no
-		where date_format(b.reg_date, '%Y%m%d') = date_format(now(), '%Y%m%d')
+		from assa.assa_board 
+		where category = #{category}
+		<if test="content != 'null'">
+	 	      and ${type} like CONCAT('%',#{content},'%')
+	 	   </if>
 	</select>
 	
-	<select id="selectTodoListByNo" parameterType="int" resultMap="todoBoardMap">
-		select b.writer, b.title, t.todo as todo, b.reg_date, b.no,
-		t.todo_check
-		from assa_board b inner join assa_todo t
-		on b.no = t.board_no
+	<!-- 검색 -->
+	<select id="searchBoard" parameterType="searchForm" resultMap="boardMap">
+		select *
+		 from assa.assa_board
+		 where #{target} = #{searchWord}
+		 order by no desc
+		 limit #{begin}, 10
+	</select>
+	
+	<!-- 스터디 디테일 -->
+	<select id="boardDetail" parameterType="int" resultMap="boardMap">
+		select *
+		 from assa.assa_board
+		 where no = #{no}
+	</select>
+	
+	<select id="boardPrevNext" parameterType="int" resultType="int">
+		select  no 
+		from assa.assa_board
+		where no in (
+					(select no from assa.assa_board where no &lt; #{no} and category = #{category} order by no desc limit 1),
+		            (select no from assa.assa_board where no &gt; #{no} and category = #{category} order by no limit 1)
+		          	)
+		order by no desc
+	</select>
+	
+	<select id="fileDetail" parameterType="int" resultMap="attachMap">
+		select * 
+		 from assa.assa_file
 		where no = #{no}
 	</select>
-	
-	
-	
-	<!-- todo 등록 -->
-	<insert id="insertTitle" parameterType="Board" useGeneratedKeys="true"
-		keyProperty="no">
-		insert into assa_board(
-		title , writer, category
-		)values(
-		#{title}, #{writer}, 4
+	<!-- 스터디 댓글 -->
+	<select id="commentList" parameterType="int" resultMap="commentMap">
+		select * 
+		 from assa.assa_comment
+		where board_no = #{board_no} 
+		order by comment_no desc
+	</select>
+	<!-- 스터디 입력 -->
+	<insert id="boardWrite" parameterType="Board" useGeneratedKeys="true" keyProperty="no">
+		insert into assa.assa_board(
+			writer,title,content,category
+		) values(
+			#{writer},#{title},#{content},#{category}
 		)
 	</insert>
-	<insert id="insertTodo" parameterType="TodoList">
-		insert into
-		assa_todo(
-		board_no, todo
-		) value(
-		#{boardNo}, #{todo}
+	<!-- 파일 입력 -->
+	<insert id="fileWrite" parameterType="attach" >
+		insert into assa.assa_file(
+			no, file_name, file_path,ori_name
+		) values(
+			#{no},#{fileName},#{filePath},#{oriName}			
 		)
 	</insert>
-
 	
-
+	<!-- 댓글 입력 -->
+	<insert id="commentWrite" parameterType="comment">
+		insert into assa.assa_comment(
+			board_no,comment_content,comment_writer
+		) values (
+			#{boardNo},#{commentContent},#{commentWriter}
+		)
+	</insert>
+	
+	<!-- 게시물 삭제 -->
+	<delete id="deleteBoard" parameterType="int" >
+		delete from assa.assa_board
+		 where no = #{no}
+	</delete>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteComment" parameterType="int">
+		delete from assa.assa_comment
+		 where comment_no = #{commentNo}
+	</delete>
+	
+	<update id="updateBoardCnt" parameterType="int">
+		UPDATE assa.assa_board
+		 SET count = count +1
+		WHERE no =  #{no}
+	</update>
+	<update id="updateBoard" parameterType="Board" >
+		UPDATE assa.assa_board
+		 SET title = #{title},content = #{content}
+		WHERE no =  #{no}
+	</update>
 </mapper>
-
 
 
 
